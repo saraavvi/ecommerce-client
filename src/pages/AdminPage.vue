@@ -5,21 +5,22 @@
   </ul>
 </template>
 
-<script>
-export default {
-  methods: {
-    getProducts() {
-      this.$store.dispatch('products/fetchProducts');
-    },
-  },
-  computed: {
-    allProducts() {
-      const products = this.$store.getters['products/products'];
-      return products;
-    },
-  },
-  created() {
-    this.getProducts();
-  },
+<script setup>
+import { onMounted, computed } from 'vue';
+import useProductsStore from '../store/useProducts';
+
+const productStore = useProductsStore();
+
+const setProducts = () => {
+  productStore.fetchProducts();
 };
+
+const allProducts = computed(() => {
+  const products = productStore.getProducts;
+  return products;
+});
+
+onMounted(() => {
+  setProducts();
+});
 </script>
